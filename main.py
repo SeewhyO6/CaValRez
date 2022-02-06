@@ -8,7 +8,6 @@ Programme servant à calculer la valeur d'une résistance électronique par rapp
 import sys
 import tkinter as tk
 from tkinter import ttk
-import pygame.mixer as mixer
 from platform import system
 import pyglet
 
@@ -52,16 +51,8 @@ class App(tk.Tk):
         self.option_add('*TCombobox*Scrollbar.width', 40)
         self.app_style.configure('TCombobox', arrowsize=20)
 
-        # Sons
-        mixer.init()
-        self.click = mixer.Sound("./sounds/click.wav")
-        self.select = mixer.Sound("./sounds/select.wav")
-        self.opening = mixer.Sound("./sounds/opening.wav")
-
-        self.opening.play()
-
         # Options de root
-        self.title("Ω Calculateur de résistance Ω")
+        self.title(110 * " " + "Resistor Calculator")
         self.resizable(False, False)
         self.config(bg=self.frame_color)
         self.wm_protocol("WM_DELETE_WINDOW", self.on_close)
@@ -88,7 +79,7 @@ class App(tk.Tk):
         self.an5 = tk.Radiobutton(self.input_frame, variable=self.choice_an, value=2, bg=self.frame_color)
         self.label_radio = tk.Label(self.input_frame, text="Anneaux :", bg=self.frame_color, fg="black")
 
-        self.an4.config(command=self.on_radio_change, borderwidth=3, relief="groove", width=0)
+        self.an4.config(command=self.on_radio_change, borderwidth=3, relief="groove")
         self.an5.config(command=self.on_radio_change, borderwidth=3, relief="sunken")
         self.label_radio.config(font=self.font, justify="center", anchor="center")
 
@@ -225,9 +216,10 @@ class App(tk.Tk):
         Methode callback sur le changement des bouttons
         radios, suppression ou ajout de la dernière couleur
         """
-        self.click.play()
 
         if self.choice_an.get() == 1:
+
+            self.title(90 * " " + "Resistor Calculator")
 
             self.an4.config(relief="sunken")
             self.an5.config(relief="groove")
@@ -238,6 +230,8 @@ class App(tk.Tk):
             self.label_couleur3.grid_forget()
 
         elif self.choice_an.get() == 2:
+
+            self.title(110 * " " + "Resistor Calculator")
 
             self.an5.config(relief="sunken")
             self.an4.config(relief="groove")
@@ -255,7 +249,6 @@ class App(tk.Tk):
         Methode callback de la combobox 1 pour actualiser
         la couleur et le label
         """
-        self.select.play()
         self.label_bas_1.config(text=str(self.choices_dict[self.choice1.get()]))
         self.label_couleur1.config(bg=self.color_dict[self.choice1.get()])
         self.display_result()
@@ -266,7 +259,6 @@ class App(tk.Tk):
         Methode callback de la combobox 2 pour actualiser
         la couleur et le label
         """
-        self.select.play()
         self.label_bas_2.config(text=str(self.choices_dict[self.choice2.get()]))
         self.label_couleur2.config(bg=self.color_dict[self.choice2.get()])
         self.display_result()
@@ -277,7 +269,6 @@ class App(tk.Tk):
         Methode callback de la combobox 3 pour actualiser
         la couleur et le label
         """
-        self.select.play()
         self.label_bas_3.config(text=str(self.choices_dict[self.choice3.get()]))
         self.label_couleur3.config(bg=self.color_dict[self.choice3.get()])
         self.display_result()
@@ -288,7 +279,6 @@ class App(tk.Tk):
         Methode callback de la combobox multiplicatuer pour actualiser
         la couleur et le label
         """
-        self.select.play()
         if self.mult_dict[self.choice_mult.get()] < 1:
             self.label_bas_mult.config(text=str(self.mult_dict[self.choice_mult.get()]))
         else:
@@ -302,7 +292,6 @@ class App(tk.Tk):
         Methode callback de la combobox tolerance pour actualiser
         la couleur et le label
         """
-        self.select.play()
         self.label_bas_tol.config(text=str(self.tolerance_dict[self.choice_tol.get()]))
         self.label_couleur_tol.config(bg=self.color_dict[self.choice_tol.get()])
         self.display_result()
@@ -340,7 +329,6 @@ class App(tk.Tk):
                                        str(self.tolerance_dict[self.choice_tol.get()]) + " %")
 
     def on_close(self):
-        mixer.quit()
         self.destroy()
         sys.exit(0)
 
