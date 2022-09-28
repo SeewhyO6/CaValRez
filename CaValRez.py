@@ -2,7 +2,6 @@
 # -*- coding: UTF-8 -*-
 """ Simple 4/5 rings resistance calculator """
 import sys
-import os
 
 from PyQt5.QtGui import QFont, QIcon, QFontDatabase, QPainter, QPen, QPixmap
 from PyQt5.QtCore import QSize, Qt, QTimer
@@ -24,9 +23,6 @@ YES_BTN = QMessageBox.Yes
 NO_BTN = QMessageBox.No
 AN4_SIZE = QSize(596, 212)
 AN5_SIZE = QSize(716, 212)
-TRAD_FR_EN = {"Quitter": "Exit",
-              "Voullez vous quitter ?": "Do you want to exit ?"}
-LANG = os.environ["LANG"]
 COLOR_LIST = ["Noir", "Marron", "Rouge", "Orange", "Jaune",
               "Vert", "Bleu", "Violet", "Gris", "Blanc"]
 MULT_LIST = ["Noir", "Marron", "Rouge", "Orange", "Jaune", "Vert",
@@ -44,17 +40,6 @@ TOL_LIST = ["Marron", "Rouge", "Vert", "Bleu",
             "Violet", "Gris", "Or", "Argent"]
 TOL_VALUES = {"Marron": 1, "Rouge": 2, "Vert": 0.5, "Bleu": 0.25,
               "Violet": 0.1, "Gris": 0.05, "Or": 5, "Argent": 10}
-
-
-def tr(mess):
-    """ Make traduction in english """
-    if "en_" in LANG:
-        try:
-            return TRAD_FR_EN[mess]
-        except KeyError:
-            return mess
-    else:
-        return mess
 
 
 class MainWindow(QWidget):
