@@ -211,8 +211,10 @@ class MainWindow(QWidget):
         self.res_frame = QFrame()
         self.res_frame.setFixedHeight(30)
         self.res_frame.setContentsMargins(10, 0, 10, 0)
-        self.res_frame.setStyleSheet("background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, "
-                                     "stop:0 rgba(214, 186, 147, 255), stop:1 rgba(182, 154, 115, 255));"
+        self.res_frame.setStyleSheet("background: qlineargradient(spread:pad, "
+                                     "x1:0, y1:0, x2:1, y2:1, "
+                                     "stop:0 rgba(214, 186, 147, 255), "
+                                     "stop:1 rgba(182, 154, 115, 255));"
                                      "border: 0px solid black; "
                                      "border-radius: 5px")
         self.res_layout = QHBoxLayout()
@@ -267,9 +269,6 @@ class MainWindow(QWidget):
         self.start_anim_timer = QTimer(self)
         self.start_anim_timer.setInterval(5)
         self.start_anim_timer.timeout.connect(self.increase_opacity)
-
-        # noinspection PyTypeChecker
-        QTimer.singleShot(10, self.start_anim_timer.start)
 
     def paintEvent(self, event):
         """ Draw line """
@@ -369,4 +368,5 @@ if __name__ == '__main__':
     window = MainWindow()
     splash_screen.finish(window)
     window.show()
+    window.start_anim_timer.start()
     app.exec()
