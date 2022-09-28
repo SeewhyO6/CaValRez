@@ -52,15 +52,13 @@ class App(tk.Tk):
         self.app_style.configure('TCombobox', arrowsize=20)
 
         # Options de root
-        self.title(110 * " " + "Resistor Calculator")
+        self.title("Resistor Calculator")
         self.resizable(False, False)
         self.config(bg=self.frame_color)
         self.wm_protocol("WM_DELETE_WINDOW", self.on_close)
         if system() == "Linux":
             self.img = tk.PhotoImage(file="./images/logo.png")
             self.iconphoto(True, self.img)
-        elif system() == "Windows":
-            self.iconbitmap("./images/logo.ico")
 
         # Layers et séparateur
         self.input_frame = tk.Frame(self, bg=self.frame_color)
@@ -182,7 +180,7 @@ class App(tk.Tk):
         self.label_couleur_mult = tk.Label(self.contener_couleur, width=1, height=2, bg="black")
         self.label_couleur_tol = tk.Label(self.contener_couleur, width=1, height=2, bg="#470000")
 
-        self.label_resultat.config(bg=self.frame_color, text="111 Ω - 1 %", font=("Technoinline", 20), fg="black")
+        self.label_resultat.config(bg=self.frame_color, text="111 Ω - 1 %", font=("Lato", 20), fg="black")
 
         self.label_couleur1.grid(row=0, column=0, padx=10)
         self.label_couleur2.grid(row=0, column=1, padx=10)
@@ -219,7 +217,7 @@ class App(tk.Tk):
 
         if self.choice_an.get() == 1:
 
-            self.title(90 * " " + "Resistor Calculator")
+            self.title("Resistor Calculator")
 
             self.an4.config(relief="sunken")
             self.an5.config(relief="groove")
@@ -231,7 +229,7 @@ class App(tk.Tk):
 
         elif self.choice_an.get() == 2:
 
-            self.title(110 * " " + "Resistor Calculator")
+            self.title("Resistor Calculator")
 
             self.an5.config(relief="sunken")
             self.an4.config(relief="groove")
