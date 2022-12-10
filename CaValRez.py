@@ -3,24 +3,24 @@
 """ Simple 4/5 rings resistance calculator """
 import sys
 
-from PyQt5.QtGui import QFont, QIcon, QFontDatabase, QPainter, QPen, QPixmap
-from PyQt5.QtCore import QSize, Qt, QTimer
-from PyQt5.QtWidgets import (QMessageBox, QWidget, QVBoxLayout,
+from PyQt6.QtGui import QFont, QIcon, QFontDatabase, QPainter, QPen, QPixmap, QColor
+from PyQt6.QtCore import QSize, Qt, QTimer
+from PyQt6.QtWidgets import (QMessageBox, QWidget, QVBoxLayout,
                              QHBoxLayout, QGraphicsDropShadowEffect,
                              QGroupBox, QButtonGroup, QLabel,
                              QRadioButton, QFrame, QComboBox,
                              QApplication, QSplashScreen)
 
 APP_NAME = "Cavalrez"
-VERSION = "v1.0"
+VERSION = "v1.02"
 APP_TITLE = f"{APP_NAME} {VERSION}"
 APP_ICON = "./images/logo.png"
 FONT = QFont("Lato", 11)
-CLOSE_WIN = Qt.WindowCloseButtonHint
-MIN_WIN = Qt.WindowMinimizeButtonHint
-MAX_WIN = Qt.WindowMaximizeButtonHint
-YES_BTN = QMessageBox.Yes
-NO_BTN = QMessageBox.No
+CLOSE_WIN = Qt.WindowType.WindowCloseButtonHint
+MIN_WIN = Qt.WindowType.WindowMinimizeButtonHint
+MAX_WIN = Qt.WindowType.WindowMaximizeButtonHint
+YES_BTN = QMessageBox.StandardButton.Yes
+NO_BTN = QMessageBox.StandardButton.No
 AN4_SIZE = QSize(596, 212)
 AN5_SIZE = QSize(716, 212)
 COLOR_LIST = ["Noir", "Marron", "Rouge", "Orange", "Jaune",
@@ -52,14 +52,47 @@ class MainWindow(QWidget):
         # self.setWindowFlags(MIN_WIN | MAX_WIN | CLOSE_WIN)
         self.setWindowIcon(QIcon(APP_ICON))
         self.setFixedSize(AN5_SIZE)
-        QFontDatabase.addApplicationFont("./font/Lato-Regular.ttf")
-        self.setFont(FONT)
         self.setWindowOpacity(0.0)
-        # self.showMaximized()
 
         # Variables
         self.opacity = 0.0
         self.result = str()
+        black_pix = QPixmap(100, 100)
+        black_pix.fill(QColor("#000000"))
+        self.black_icon = QIcon(black_pix)
+        maroon_pix = QPixmap(100, 100)
+        maroon_pix.fill(QColor("#9c6500"))
+        self.maroon_icon = QIcon(maroon_pix)
+        red_pix = QPixmap(100, 100)
+        red_pix.fill(QColor("#ff0000"))
+        self.red_icon = QIcon(red_pix)
+        orange_pix = QPixmap(100, 100)
+        orange_pix.fill(QColor("#ffa500"))
+        self.orange_icon = QIcon(orange_pix)
+        yellow_pix = QPixmap(100, 100)
+        yellow_pix.fill(QColor("#ffff00"))
+        self.yellow_icon = QIcon(yellow_pix)
+        green_pix = QPixmap(100, 100)
+        green_pix.fill(QColor("#00b600"))
+        self.green_icon = QIcon(green_pix)
+        blue_pix = QPixmap(100, 100)
+        blue_pix.fill(QColor("#0000ff"))
+        self.blue_icon = QIcon(blue_pix)
+        purple_pix = QPixmap(100, 100)
+        purple_pix.fill(QColor("#8a008a"))
+        self.purple_icon = QIcon(purple_pix)
+        gray_pix = QPixmap(100, 100)
+        gray_pix.fill(QColor("#808080"))
+        self.gray_icon = QIcon(gray_pix)
+        white_pix = QPixmap(100, 100)
+        white_pix.fill(QColor("#ffffff"))
+        self.white_icon = QIcon(white_pix)
+        gold_pix = QPixmap(100, 100)
+        gold_pix.fill(QColor("#ffd700"))
+        self.gold_icon = QIcon(gold_pix)
+        silver_pix = QPixmap(100, 100)
+        silver_pix.fill(QColor("#c0c0c0"))
+        self.silver_icon = QIcon(silver_pix)
 
         self.main_layout = QVBoxLayout(self)
 
@@ -67,7 +100,7 @@ class MainWindow(QWidget):
         self.output_layout = QHBoxLayout()
         self.output_group = QGroupBox()
         self.output_shadow = QGraphicsDropShadowEffect()
-        self.output_shadow.setBlurRadius(20)
+        self.output_shadow.setBlurRadius(100)
         self.output_group.setGraphicsEffect(self.output_shadow)
         self.output_group.setLayout(self.output_layout)
 
@@ -75,7 +108,7 @@ class MainWindow(QWidget):
         # Rings
         self.ring_group = QGroupBox()
         self.ring_shadow = QGraphicsDropShadowEffect()
-        self.ring_shadow.setBlurRadius(20)
+        self.ring_shadow.setBlurRadius(100)
         self.ring_group.setGraphicsEffect(self.ring_shadow)
         self.ring_layout = QVBoxLayout()
         self.ring_btn_grp = QButtonGroup()
@@ -85,17 +118,19 @@ class MainWindow(QWidget):
         self.five_ring_radio.setChecked(True)
         self.ring_btn_grp.addButton(self.four_ring_radio)
         self.ring_btn_grp.addButton(self.five_ring_radio)
-        self.ring_layout.addWidget(self.ring_label, 1, Qt.AlignCenter)
-        self.ring_layout.addWidget(self.four_ring_radio, 1, Qt.AlignCenter)
-        self.ring_layout.addWidget(self.five_ring_radio, 1, Qt.AlignCenter)
+        self.ring_layout.addWidget(self.ring_label, 1, Qt.AlignmentFlag.AlignCenter)
+        self.ring_layout.addWidget(self.four_ring_radio, 1, Qt.AlignmentFlag.AlignCenter)
+        self.ring_layout.addWidget(self.five_ring_radio, 1, Qt.AlignmentFlag.AlignCenter)
         self.ring_group.setLayout(self.ring_layout)
+        # noinspection PyUnresolvedReferences
         self.five_ring_radio.clicked.connect(lambda: self.set_rings_number(5))
+        # noinspection PyUnresolvedReferences
         self.four_ring_radio.clicked.connect(lambda: self.set_rings_number(4))
 
         # Colors
         self.color_group = QGroupBox()
         self.color_shadow = QGraphicsDropShadowEffect()
-        self.color_shadow.setBlurRadius(20)
+        self.color_shadow.setBlurRadius(100)
         self.color_group.setGraphicsEffect(self.color_shadow)
         self.color_layout = QHBoxLayout()
         self.color_layout.setSpacing(20)
@@ -110,101 +145,106 @@ class MainWindow(QWidget):
         self.tol_layout = QVBoxLayout()
         self.color_layout.addLayout(self.color_1_layout, 1)
         self.color_layout.addLayout(self.color_2_layout, 1)
-        self.color_layout.addWidget(self.color_3_frame, 1, Qt.AlignCenter)
+        self.color_layout.addWidget(self.color_3_frame, 1, Qt.AlignmentFlag.AlignCenter)
         self.color_layout.addLayout(self.mult_layout, 1)
         self.color_layout.addLayout(self.tol_layout, 1)
 
         self.color_1_label_up = QLabel("Couleur 1")
         self.color_1_combo = QComboBox()
-        self.color_1_combo.addItems(COLOR_LIST)
-        self.color_1_combo.setCurrentIndex(1)
+        self.color_1_combo.setMaxVisibleItems(20)
+        self.color_1_combo.addItems([i for i in COLOR_LIST if i != "Noir"])
         self.color_1_combo.setEditable(True)
-        self.color_1_combo.lineEdit().setAlignment(Qt.AlignCenter)
+        self.color_1_combo.lineEdit().setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.color_1_combo.lineEdit().setReadOnly(True)
-        for i in range(0, self.color_1_combo.count()):
-            self.color_1_combo.setItemData(i, Qt.AlignCenter, Qt.TextAlignmentRole)
+        self.format_combobox(self.color_1_combo)
         self.color_1_combo.setCurrentText("Marron")
+        self.color_1_combo.setCurrentIndex(0)
         self.color_1_combo.setFixedWidth(100)
         self.color_1_label_down = QLabel("1")
-        self.color_1_layout.addWidget(self.color_1_label_up, 1, Qt.AlignCenter)
-        self.color_1_layout.addWidget(self.color_1_combo, 1, Qt.AlignCenter)
-        self.color_1_layout.addWidget(self.color_1_label_down, 1, Qt.AlignCenter)
+        self.color_1_layout.addWidget(self.color_1_label_up, 1, Qt.AlignmentFlag.AlignCenter)
+        self.color_1_layout.addWidget(self.color_1_combo, 1, Qt.AlignmentFlag.AlignCenter)
+        self.color_1_layout.addWidget(self.color_1_label_down, 1, Qt.AlignmentFlag.AlignCenter)
 
         self.color_2_label_up = QLabel("Couleur 2")
         self.color_2_combo = QComboBox()
+        self.color_2_combo.setMaxVisibleItems(20)
         self.color_2_combo.addItems(COLOR_LIST)
         self.color_2_combo.setCurrentIndex(1)
         self.color_2_combo.setEditable(True)
-        self.color_2_combo.lineEdit().setAlignment(Qt.AlignCenter)
+        self.color_2_combo.lineEdit().setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.color_2_combo.lineEdit().setReadOnly(True)
-        for i in range(0, self.color_2_combo.count()):
-            self.color_2_combo.setItemData(i, Qt.AlignCenter, Qt.TextAlignmentRole)
+        self.format_combobox(self.color_2_combo)
         self.color_2_combo.setCurrentText("Marron")
         self.color_2_combo.setFixedWidth(100)
         self.color_2_label_down = QLabel("1")
-        self.color_2_layout.addWidget(self.color_2_label_up, 1, Qt.AlignCenter)
-        self.color_2_layout.addWidget(self.color_2_combo, 1, Qt.AlignCenter)
-        self.color_2_layout.addWidget(self.color_2_label_down, 1, Qt.AlignCenter)
+        self.color_2_layout.addWidget(self.color_2_label_up, 1, Qt.AlignmentFlag.AlignCenter)
+        self.color_2_layout.addWidget(self.color_2_combo, 1, Qt.AlignmentFlag.AlignCenter)
+        self.color_2_layout.addWidget(self.color_2_label_down, 1, Qt.AlignmentFlag.AlignCenter)
 
         self.color_3_label_up = QLabel("Couleur 3")
         self.color_3_combo = QComboBox()
+        self.color_3_combo.setMaxVisibleItems(20)
         self.color_3_combo.addItems(COLOR_LIST)
         self.color_3_combo.setCurrentIndex(1)
         self.color_3_combo.setEditable(True)
-        self.color_3_combo.lineEdit().setAlignment(Qt.AlignCenter)
+        self.color_3_combo.lineEdit().setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.color_3_combo.lineEdit().setReadOnly(True)
-        for i in range(0, self.color_3_combo.count()):
-            self.color_3_combo.setItemData(i, Qt.AlignCenter, Qt.TextAlignmentRole)
+        self.format_combobox(self.color_3_combo)
         self.color_3_combo.setCurrentText("Marron")
         self.color_3_combo.setFixedWidth(100)
         self.color_3_label_down = QLabel("1")
-        self.color_3_layout.addWidget(self.color_3_label_up, 1, Qt.AlignCenter)
-        self.color_3_layout.addWidget(self.color_3_combo, 1, Qt.AlignCenter)
-        self.color_3_layout.addWidget(self.color_3_label_down, 1, Qt.AlignCenter)
+        self.color_3_layout.addWidget(self.color_3_label_up, 1, Qt.AlignmentFlag.AlignCenter)
+        self.color_3_layout.addWidget(self.color_3_combo, 1, Qt.AlignmentFlag.AlignCenter)
+        self.color_3_layout.addWidget(self.color_3_label_down, 1, Qt.AlignmentFlag.AlignCenter)
         self.color_3_frame.setLayout(self.color_3_layout)
         self.color_3_layout.setContentsMargins(0, 0, 0, 0)
         self.color_3_layout.setSpacing(20)
 
         self.mult_label_up = QLabel("Multiplicateur")
         self.mult_combo = QComboBox()
+        self.mult_combo.setMaxVisibleItems(20)
         self.mult_combo.addItems(MULT_LIST)
         self.mult_combo.setCurrentIndex(0)
         self.mult_combo.setEditable(True)
-        self.mult_combo.lineEdit().setAlignment(Qt.AlignCenter)
+        self.mult_combo.lineEdit().setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.mult_combo.lineEdit().setReadOnly(True)
-        for i in range(0, self.mult_combo.count()):
-            self.mult_combo.setItemData(i, Qt.AlignCenter, Qt.TextAlignmentRole)
+        self.format_combobox(self.mult_combo)
         self.mult_combo.setCurrentText("Noir")
         self.mult_combo.setFixedWidth(100)
         self.mult_label_down = QLabel("1")
-        self.mult_layout.addWidget(self.mult_label_up, 1, Qt.AlignCenter)
-        self.mult_layout.addWidget(self.mult_combo, 1, Qt.AlignCenter)
-        self.mult_layout.addWidget(self.mult_label_down, 1, Qt.AlignCenter)
+        self.mult_layout.addWidget(self.mult_label_up, 1, Qt.AlignmentFlag.AlignCenter)
+        self.mult_layout.addWidget(self.mult_combo, 1, Qt.AlignmentFlag.AlignCenter)
+        self.mult_layout.addWidget(self.mult_label_down, 1, Qt.AlignmentFlag.AlignCenter)
 
         self.tol_label_up = QLabel("Tolérence")
         self.tol_combo = QComboBox()
+        self.tol_combo.setMaxVisibleItems(20)
         self.tol_combo.addItems(TOL_LIST)
         self.tol_combo.setCurrentIndex(0)
         self.tol_combo.setEditable(True)
-        self.tol_combo.lineEdit().setAlignment(Qt.AlignCenter)
+        self.tol_combo.lineEdit().setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.tol_combo.lineEdit().setReadOnly(True)
-        for i in range(0, self.tol_combo.count()):
-            self.tol_combo.setItemData(i, Qt.AlignCenter, Qt.TextAlignmentRole)
+        self.format_combobox(self.tol_combo)
         self.tol_combo.setCurrentText("Marron")
         self.tol_combo.setFixedWidth(100)
         self.tol_label_down = QLabel("1")
-        self.tol_layout.addWidget(self.tol_label_up, 1, Qt.AlignCenter)
-        self.tol_layout.addWidget(self.tol_combo, 1, Qt.AlignCenter)
-        self.tol_layout.addWidget(self.tol_label_down, 1, Qt.AlignCenter)
+        self.tol_layout.addWidget(self.tol_label_up, 1, Qt.AlignmentFlag.AlignCenter)
+        self.tol_layout.addWidget(self.tol_combo, 1, Qt.AlignmentFlag.AlignCenter)
+        self.tol_layout.addWidget(self.tol_label_down, 1, Qt.AlignmentFlag.AlignCenter)
 
+        # noinspection PyUnresolvedReferences
         self.color_1_combo.currentTextChanged.connect(lambda e: self.set_rings_color(1, e))
+        # noinspection PyUnresolvedReferences
         self.color_2_combo.currentTextChanged.connect(lambda e: self.set_rings_color(2, e))
+        # noinspection PyUnresolvedReferences
         self.color_3_combo.currentTextChanged.connect(lambda e: self.set_rings_color(3, e))
+        # noinspection PyUnresolvedReferences
         self.mult_combo.currentTextChanged.connect(lambda e: self.set_rings_color(4, e))
+        # noinspection PyUnresolvedReferences
         self.tol_combo.currentTextChanged.connect(lambda e: self.set_rings_color(5, e))
 
-        self.input_layout.addWidget(self.ring_group, 1, Qt.AlignJustify)
-        self.input_layout.addWidget(self.color_group, 5, Qt.AlignJustify)
+        self.input_layout.addWidget(self.ring_group, 1, Qt.AlignmentFlag.AlignJustify)
+        self.input_layout.addWidget(self.color_group, 5, Qt.AlignmentFlag.AlignJustify)
 
         # ############## Output Layout ################
         # noinspection PyArgumentList
@@ -246,39 +286,75 @@ class MainWindow(QWidget):
                                           f"border: 0px solid black; border-radius: 0px")
         self.tol_res_frame.setStyleSheet(f"background-color: {COLORS_HEX['Marron']}; "
                                          f"border: 0px solid black; border-radius: 0px")
-        self.res_layout.addWidget(self.color_1_res_frame, 1, Qt.AlignCenter)
-        self.res_layout.addWidget(self.color_2_res_frame, 1, Qt.AlignCenter)
-        self.res_layout.addWidget(self.color_3_res_frame, 1, Qt.AlignCenter)
-        self.res_layout.addWidget(self.mult_res_frame, 1, Qt.AlignCenter)
-        self.res_layout.addWidget(self.tol_res_frame, 1, Qt.AlignCenter)
+        self.res_layout.addWidget(self.color_1_res_frame, 1, Qt.AlignmentFlag.AlignCenter)
+        self.res_layout.addWidget(self.color_2_res_frame, 1, Qt.AlignmentFlag.AlignCenter)
+        self.res_layout.addWidget(self.color_3_res_frame, 1, Qt.AlignmentFlag.AlignCenter)
+        self.res_layout.addWidget(self.mult_res_frame, 1, Qt.AlignmentFlag.AlignCenter)
+        self.res_layout.addWidget(self.tol_res_frame, 1, Qt.AlignmentFlag.AlignCenter)
 
         self.result_label = QLabel("111 Ω - 1 %")
         label_font = self.result_label.font()
         label_font.setPointSize(25)
         self.result_label.setFont(label_font)
 
-        self.output_layout.addWidget(self.res_frame, 1, Qt.AlignCenter)
-        self.output_layout.addWidget(self.result_label, 1, Qt.AlignCenter)
+        self.output_layout.addWidget(self.res_frame, 1, Qt.AlignmentFlag.AlignCenter)
+        self.output_layout.addWidget(self.result_label, 1, Qt.AlignmentFlag.AlignCenter)
 
         self.main_layout.addLayout(self.input_layout, 2)
-        self.main_layout.addWidget(self.output_group, 1, Qt.AlignBaseline)
+        self.main_layout.addWidget(self.output_group, 1, Qt.AlignmentFlag.AlignBaseline)
 
         self.setLayout(self.main_layout)
 
         # Start Opacity Anim Timer
         self.start_anim_timer = QTimer(self)
         self.start_anim_timer.setInterval(5)
+        # noinspection PyUnresolvedReferences
         self.start_anim_timer.timeout.connect(self.increase_opacity)
+
+        self.four_ring_radio.setChecked(True)
+        self.set_rings_number(4)
+
+    def format_combobox(self, combobox):
+        for i in range(0, combobox.count()):
+            combobox.setItemData(i, Qt.AlignmentFlag.AlignCenter)
+            if combobox.itemText(i) == "Noir":
+                combobox.setItemIcon(i, self.black_icon)
+            elif combobox.itemText(i) == "Marron":
+                combobox.setItemIcon(i, self.maroon_icon)
+            elif combobox.itemText(i) == "Rouge":
+                combobox.setItemIcon(i, self.red_icon)
+            elif combobox.itemText(i) == "Orange":
+                combobox.setItemIcon(i, self.orange_icon)
+            elif combobox.itemText(i) == "Jaune":
+                combobox.setItemIcon(i, self.yellow_icon)
+            elif combobox.itemText(i) == "Vert":
+                combobox.setItemIcon(i, self.green_icon)
+            elif combobox.itemText(i) == "Bleu":
+                combobox.setItemIcon(i, self.blue_icon)
+            elif combobox.itemText(i) == "Violet":
+                combobox.setItemIcon(i, self.purple_icon)
+            elif combobox.itemText(i) == "Gris":
+                combobox.setItemIcon(i, self.gray_icon)
+            elif combobox.itemText(i) == "Blanc":
+                combobox.setItemIcon(i, self.white_icon)
+            elif combobox.itemText(i) == "Or":
+                combobox.setItemIcon(i, self.gold_icon)
+            elif combobox.itemText(i) == "Argent":
+                combobox.setItemIcon(i, self.silver_icon)
 
     def paintEvent(self, event):
         """ Draw line """
         painter = QPainter(self)
-        painter.setPen(QPen(Qt.black, 2))
+        painter.setPen(QPen(Qt.GlobalColor.black, 2))
         painter.setOpacity(0.6)
         if self.five_ring_radio.isChecked():
             painter.drawLine(113, 173, 265, 173)
+            painter.drawLine(265, 173, 275, 183)
+            painter.drawLine(113, 173, 103, 183)
         elif self.four_ring_radio.isChecked():
             painter.drawLine(95, 173, 222, 173)
+            painter.drawLine(95, 173, 85, 183)
+            painter.drawLine(222, 173, 232, 183)
 
     def set_rings_color(self, ring_num, color):
         """ Set the color of the given ring index """
@@ -363,6 +439,8 @@ class MainWindow(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    QFontDatabase.addApplicationFont("./font/Lato-Regular.ttf")
+    app.setFont(FONT)
     splash_screen = QSplashScreen(QPixmap(APP_ICON))
     splash_screen.show()
     window = MainWindow()
