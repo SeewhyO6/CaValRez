@@ -9,7 +9,7 @@ from PyQt6.QtWidgets import (QMessageBox, QWidget, QVBoxLayout,
                              QHBoxLayout, QGraphicsDropShadowEffect,
                              QGroupBox, QButtonGroup, QLabel,
                              QRadioButton, QFrame, QComboBox,
-                             QApplication, QSplashScreen)
+                             QApplication)
 
 APP_NAME = "Cavalrez"
 VERSION = "v1.02"
@@ -139,7 +139,7 @@ class MainWindow(QWidget):
         self.color_1_layout = QVBoxLayout()
         self.color_2_layout = QVBoxLayout()
         self.color_3_layout = QVBoxLayout()
-        # noinspection PyArgumentList
+
         self.color_3_frame = QFrame()
         self.mult_layout = QVBoxLayout()
         self.tol_layout = QVBoxLayout()
@@ -315,6 +315,7 @@ class MainWindow(QWidget):
         self.set_rings_number(4)
 
     def format_combobox(self, combobox):
+        combobox.setFixedHeight(25)
         for i in range(0, combobox.count()):
             combobox.setItemData(i, Qt.AlignmentFlag.AlignCenter)
             if combobox.itemText(i) == "Noir":
@@ -441,10 +442,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     QFontDatabase.addApplicationFont("./font/Lato-Regular.ttf")
     app.setFont(FONT)
-    splash_screen = QSplashScreen(QPixmap(APP_ICON))
-    splash_screen.show()
     window = MainWindow()
-    splash_screen.finish(window)
     window.show()
     window.start_anim_timer.start()
     app.exec()
